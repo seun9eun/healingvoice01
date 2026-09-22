@@ -25,10 +25,8 @@ const logoKo = "/images/header/healingvoice_logo.png";
 const logoEn = "/images/hero/hero_logo_en.png";
 const iconArrow = "/images/voices/icon_arrow.svg";
 
-// TODO: 투표 링크 미수급(2026-09-22 기준) — 퐁당 인앱 페이지로 간다고만 전달받았다.
-// 주소가 오면 이 값만 바꾸면 된다. 퐁당 이벤트 페이지를 그대로 쓰게 되면
-// constants/links.ts의 FONDANT_CONTENT_URL로 교체할 것.
-const VOTE_URL = "#";
+// 투표 페이지 — 퐁당 인앱 투표 페이지로 가는 단축 주소(2026-09-22 수급)
+const VOTE_URL = "https://fnd.my/MVH";
 
 const HEADLINE_CLASS = "whitespace-pre-line text-center font-black text-transparent bg-clip-text";
 const headlineStyle = {
