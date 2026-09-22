@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { Reveal } from "./Reveal";
 import { titleGradient } from "../theme";
@@ -36,18 +37,53 @@ const headlineStyle = {
   backgroundPosition: "center",
 } as const;
 
-// 디자인 확정 전이라 기본적으로는 투표 섹션을 그리지 않는다. 주소 뒤에 ?vote=on 을 붙였을 때만 보인다
-// (Hero의 방청 신청 버튼에 쓴 ?rqbtn=on, deadline.ts의 ?testDeadline=true 와 같은 방식).
-// Header의 GNB 메뉴도 이 값을 같이 본다 — 섹션이 없는데 메뉴만 남으면 눌러도 아무 데도 못 가기 때문이다.
-// 정식 공개할 때 이 상수와 쓰는 곳 두 군데(여기 아래, Header.tsx의 navItems)를 지우면 된다.
-export const VOTE_SECTION_VISIBLE =
-  new URLSearchParams(window.location.search).get("vote") === "on";
+// 투표 섹션 공개 구간 — 1라운드(2026-09-27 16:40 ~ 10-01 23:00, 한국시간).
+// 이 구간 안에서만 섹션과 GNB "투표하기" 메뉴가 함께 보인다. 마감 시각이 지나면 둘 다 사라진다.
+// +09:00 을 명시해 두었기 때문에 보는 사람 기기의 시간대와 무관하게 전 세계가 같은 순간에 열리고 닫힌다
+// (Hero의 AUDIENCE_OPEN_TIME, videoData.ts의 openTime과 같은 방식).
+// 라운드가 더 생기면 이 두 값을 바꾸면 된다.
+const VOTE_OPEN_TIME = "2026-09-27T16:40:00+09:00";
+const VOTE_CLOSE_TIME = "2026-10-01T23:00:00+09:00";
+
+// ?vote=on 을 붙이면 구간과 무관하게 강제로 보인다 — 검수·미리보기용
+// (Hero의 ?rqbtn=on, deadline.ts의 ?testDeadline=true 와 같은 용도).
+const isVotePreview = () => new URLSearchParams(window.location.search).get("vote") === "on";
+
+const isInVoteWindow = () => {
+  const now = Date.now();
+  return now >= new Date(VOTE_OPEN_TIME).getTime() && now < new Date(VOTE_CLOSE_TIME).getTime();
+};
+
+// 섹션(Vote)과 GNB 메뉴(Header)가 같은 판단을 쓰도록 훅으로 뺐다 — 섹션이 없는데 메뉴만 남으면
+// 눌러도 아무 데도 못 가기 때문이다. 상수로 두면 열리고 닫히는 시점에 화면이 갱신되지 않는다.
+export function useVoteVisible() {
+  const [visible, setVisible] = useState(() => isVotePreview() || isInVoteWindow());
+
+  // 페이지를 열어둔 채 공개·마감 시각을 넘기는 경우에도 새로고침 없이 바뀌도록 그 시점에 한 번 깨운다.
+  useEffect(() => {
+    if (isVotePreview()) return;
+    const now = Date.now();
+    const open = new Date(VOTE_OPEN_TIME).getTime();
+    const close = new Date(VOTE_CLOSE_TIME).getTime();
+    const next = now < open ? open : now < close ? close : null;
+    if (next === null) return; // 마감까지 끝난 뒤에는 더 기다릴 일이 없다
+    const delay = next - now;
+    // setTimeout 지연 상한이 약 24.8일이라 그보다 먼 시점은 타이머가 즉시 발동해버린다.
+    // 그런 경우에는 타이머를 걸지 않고 다음 방문(새로고침) 때 판정하게 둔다.
+    if (delay > 2 ** 31 - 1) return;
+    const timer = setTimeout(() => setVisible(isInVoteWindow()), delay + 50);
+    return () => clearTimeout(timer);
+  }, [visible]);
+
+  return visible;
+}
 
 export function Vote() {
   const { t, lang } = useLanguage();
   const isEn = lang === "en";
+  const visible = useVoteVisible();
 
-  if (!VOTE_SECTION_VISIBLE) return null;
+  if (!visible) return null;
 
   // 참여/필수 조건 한 줄.
   // PC는 "라벨: 내용"이 가로 한 줄로 붙고 라벨에 콜론이 있다(가로 gap 12).
