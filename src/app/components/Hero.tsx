@@ -32,13 +32,15 @@ const AUDIENCE_URL = "https://forms.gle/9WqAaBtEkzAyiTpF6";
 // 시간대가 무엇이든(해외 시청자 포함) 전 세계에서 동시에 열린다.
 const AUDIENCE_OPEN_TIME = "2026-09-20T17:00:00+09:00";
 
-// CTA 버튼 2개가 크기·폰트·그림자를 공유해서 한 곳에 모아둔다(슬랙 스펙 2026-09-18).
-// PC: 259x72, padding 세로 24, gap 8, 폰트 24px, 아이콘 24px / 모바일: 143x39, padding 세로 12, gap 6, 폰트 13.5px, 아이콘 15px
-// 폭을 고정값으로 주기 때문에 좌우 padding(스펙 PC 48 / 모바일 24)은 따로 두지 않는다.
+// CTA 버튼 2개가 크기·폰트·그림자를 공유해서 한 곳에 모아둔다(슬랙 스펙 2026-09-22, node 2003:2061 / 2003:2645).
+// PC: 높이 72, padding 세로 24·가로 48, gap 8, 폰트 24px, 아이콘 24px
+// 모바일: 높이 52, padding 세로 16, gap 8, 폰트 18px, 아이콘 20px (가로 패딩은 언어별로 달라 버튼 쪽에서 준다)
+// 폭은 시안이 HUG라 고정하지 않는다 — 문구 길이에 따라 퐁당 259 / 방청 217(모바일 174 / 143)이 나온다.
+// (2026-09-18에는 두 버튼 폭이 259로 같아서 고정값을 줬었는데, 이번 시안에서 서로 달라졌다)
 const CTA_BUTTON_CLASS =
-  "flex items-center justify-center gap-[1.5385vw] md:gap-[0.4167vw] rounded-full w-[36.6667vw] md:w-[13.4896vw] py-[3.0769vw] md:py-[1.25vw] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] transition-colors whitespace-nowrap";
-const CTA_LABEL_CLASS = "text-[3.4615vw] md:text-[1.25vw] leading-none text-center font-bold";
-const CTA_ICON_CLASS = "w-[3.8462vw] h-[3.8462vw] md:w-[1.25vw] md:h-[1.25vw]";
+  "flex items-center justify-center gap-[2.0513vw] md:gap-[0.4167vw] rounded-full md:px-[2.5vw] py-[4.1026vw] md:py-[1.25vw] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] transition-colors whitespace-nowrap";
+const CTA_LABEL_CLASS = "text-[4.6154vw] md:text-[1.25vw] leading-none text-center font-bold";
+const CTA_ICON_CLASS = "w-[5.1282vw] h-[5.1282vw] md:w-[1.25vw] md:h-[1.25vw]";
 
 // 방송 정보("3 PM Pre-release..." 등) 텍스트 색 — theme.ts의 titleGradient와 값이 같아서(2026-09-02 확인)
 // 그쪽 값을 그대로 가져와 이 파일 안에서 쓰던 이름을 유지함
@@ -105,7 +107,8 @@ export function Hero() {
       {/* 콘텐츠 */}
       {/* 영문 PC 슬랙 정밀 스펙 확인(2026-09-01, node 1374:3969): 텍스트/로고 그룹 - 방송정보 - 버튼 사이 gap 모두 32px(1.6667vw)로 동일 — 기존값이 이미 정확했음 */}
       {/* 영문 PC 컨테이너 폭은 스펙상 827px(=43.0729vw) — 기존 30.469vw는 국문 전용 값이 잘못 공유되고 있었음(2026-09-01 확인, 로고가 스펙보다 오른쪽으로 치우쳐 보이던 원인) */}
-      <div className={`relative z-10 flex flex-col items-center gap-[6.1538vw] md:gap-[1.6667vw] w-full max-w-[107.6923vw] ${lang === "en" ? "md:max-w-[43.0729vw]" : "md:max-w-[30.469vw]"} px-[4.1026vw] md:px-4 pb-[6.1538vw] md:pb-[1.25vw]`}>
+      {/* 모바일 묶음 간격은 국문 20 / 영문 24로 다르다(2026-09-22 스펙, node 2003:2645 · 2003:3926) */}
+      <div className={`relative z-10 flex flex-col items-center ${lang === "en" ? "gap-[6.1538vw]" : "gap-[5.1282vw]"} md:gap-[1.6667vw] w-full max-w-[107.6923vw] ${lang === "en" ? "md:max-w-[43.0729vw]" : "md:max-w-[30.469vw]"} px-[4.1026vw] md:px-4 pb-[6.1538vw] md:pb-[1.25vw]`}>
         {/* 태그 + 로고 그룹 — 영문은 모바일/데스크탑 배치 순서가 달라(모바일: 뱃지→로고→태그라인) 분리 렌더링(2026-08-31 모바일 스펙) */}
         {/* 국문 모바일 실측 스펙 반영(2026-09-01 확인): 뱃지-로고그룹 gap16, 아이콘 24.89px, 로고 115.43px 등 */}
         {/* 영문 모바일 스펙 확인(2026-09-01, node 1374:4707): 뱃지row-로고그룹 gap18.82px(=4.8256vw) — 국문(4.1026vw)과 다름 */}
@@ -228,17 +231,15 @@ export function Hero() {
             </div>
           </div>
 
-          {/* CTA — 국문은 버튼 2개(퐁당 바로가기 / 방청 신청), 영문은 방청 신청을 넣지 않기로 확정(2026-09-18) */}
-          {/* 슬랙 스펙 확인(2026-09-18, node 1885:845 PC / 1885:1732 모바일):
-              두 버튼 크기가 동일(PC 259x72, 모바일 143x39)하게 지정돼 있어 폭을 고정값으로 준다
-              — 퐁당 쪽은 HUG인데 결과가 259라 사실상 같은 값이고, 방청 쪽은 FIXED 259다.
-              버튼 사이 gap은 PC 32 / 모바일 24 */}
-          <div className="flex items-center gap-[6.1538vw] md:gap-[1.6667vw]">
+          {/* CTA — 국문은 버튼 2개(퐁당 바로가기 / 방청 신청), 영문은 "Go to Fondant" 하나뿐이다(2026-09-22 시안 재확인).
+              버튼 사이 간격은 PC 48 / 모바일 16.
+              좌우 패딩이 국문 모바일만 24이고 영문 모바일은 32라 버튼별로 따로 준다 — 폭은 HUG라 이 값이 폭을 결정한다. */}
+          <div className="flex items-center gap-[4.1026vw] md:gap-[2.5vw]">
             <a
               href={FONDANT_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${CTA_BUTTON_CLASS} bg-[#6276FB] hover:bg-[#4f5fe0]`}
+              className={`${CTA_BUTTON_CLASS} ${lang === "en" ? "px-[8.2051vw]" : "px-[6.1538vw]"} bg-[#6276FB] hover:bg-[#4f5fe0]`}
             >
               <span className={`${CTA_LABEL_CLASS} text-white`}>{t("header.cta")}</span>
               <ArrowUpRight className={`${CTA_ICON_CLASS} text-white`} strokeWidth={3} />
@@ -249,10 +250,10 @@ export function Hero() {
                 href={AUDIENCE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${CTA_BUTTON_CLASS} bg-white hover:bg-[#e5e7eb]`}
+                className={`${CTA_BUTTON_CLASS} px-[6.1538vw] bg-white hover:bg-[#e5e7eb]`}
               >
-                <span className={`${CTA_LABEL_CLASS} text-[#374151]`}>{t("hero.audienceCta")}</span>
-                <ArrowUpRight className={`${CTA_ICON_CLASS} text-black`} strokeWidth={3} />
+                <span className={`${CTA_LABEL_CLASS} text-[#062259]`}>{t("hero.audienceCta")}</span>
+                <ArrowUpRight className={`${CTA_ICON_CLASS} text-[#062259]`} strokeWidth={3} />
               </a>
             )}
           </div>
