@@ -23,6 +23,10 @@ const fondantWordmarkEn = "https://i.imgur.com/yZuLvLq.png";
 const heroAnniversaryTagEn = "/images/hero/hero_anniversary_tag_en.png";
 // 국문 모바일 "5주년 특별 기획" — 지정 폰트(Sandoll Nemony2) 없어서 이미지로 대체(2026-09-01 확인)
 const heroAnniversaryTagKo = "/images/hero/hero_anniversary_tag_ko.png";
+// 영문 "K-CCM Global Audition" — 국문의 kccmBadge에 대응하는 자리다.
+// 지정 폰트(KoreanHDRIB)가 프로젝트에 없어서 이미지로 쓴다(fonts.css에 직접 올린 폰트는 GFC Red Spirit 하나뿐).
+// 2026-09-22 시안(node 2003:3345)에서도 문구가 "K-CCM Global Audition"으로 같아 교체할 것이 없다.
+// (변수명이 tagline이라 예전 문구 "a voice that heals the world"로 오해하기 쉬운데 실제 이미지 내용은 위와 같다)
 const heroTaglineEn = "/images/hero/hero_tagline_en.png";
 const FONDANT_URL = "https://www.fondant.kr";
 // 방청 신청 구글폼(2026-09-18 수급)
