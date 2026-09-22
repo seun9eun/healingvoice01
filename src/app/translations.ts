@@ -28,6 +28,7 @@ export const translations = {
         about: "소개",
         cast: "출연진",
         voices: "보이스",
+        vote: "투표하기",
       },
       cta: "퐁당 바로가기",
     },
@@ -39,8 +40,9 @@ export const translations = {
       infoBtn: "영상 더 보기",
       // 01_Hero 리뉴얼(2026-08-27 Figma 답변) — 영문 확정 문구 전달 전까지 국문 유지
       anniversaryTag: "5주년 특별 기획",
-      broadcastInfo1: "오후 3시 퐁당 선공개",
-      broadcastInfo2: "오후 5시 유튜브, TV",
+      // 모바일은 두 줄로 나뉘고 PC는 구분선을 사이에 두고 한 줄로 붙는다(2026-09-21 교체)
+      broadcastInfo1: "매주(일) 오후 3시 퐁당 선공개",
+      broadcastInfo2: "오후 5시 TV, 유튜브",
       premiereFallback: "9월 20일 첫 방송", // 이미지 배지 대체 텍스트(alt)
       taglineLine1: "세상을 치유하는 목소리", // Hero 태그라인(국문은 이미지, 영문은 텍스트) — 2026-08-31 Figma 답변
       audienceCta: "방청 신청", // Hero CTA 두번째 버튼 — 국문 전용(영문판에는 추가하지 않기로 확정, 2026-09-18)
@@ -74,6 +76,20 @@ export const translations = {
       title: "보이스",
       desc: "세상을 치유할 32인의 보이스를 소개합니다",
       cta: "콘텐츠 보기",
+    },
+    // 투표 섹션 (8차 추가, 2026-09-18 Figma 답변 기준 — 디자인 확정 전이라 수정 가능성 있음)
+    voteSection: {
+      eyebrow: "Voting",
+      title: "투표하기",
+      // 헤드카피는 "014" 텍스처를 글자 모양으로 잘라낸 마스크 텍스트다.
+      // PC는 2줄, 모바일은 3줄로 줄 나눔이 달라 키를 따로 둔다(2026-09-22 스펙).
+      headline: "당신의 마음을 울린 보이스에게\n한 표를 보내주세요",
+      headlineMobile: "당신의 마음을 울린\n보이스에게\n한 표를 보내주세요",
+      eligibilityLabel: "참여 조건",
+      eligibility: "ID당 1일 1회 (하루에 1명 선택 가능)",
+      requirementsLabel: "필수 조건",
+      requirements: "퐁당 내 휴대폰 본인인증 완료 회원",
+      cta: "투표하기",
     },
     // 시상내역(Awards) 섹션 (2026-08-31 Figma 답변 기준 확정)
     awardsSection: {
@@ -332,6 +348,7 @@ export const translations = {
         about: "About",
         cast: "Cast",
         voices: "Voices",
+        vote: "Vote",
       },
       cta: "Go to Fondant",
     },
@@ -342,8 +359,11 @@ export const translations = {
       infoBtn: "Watch More",
       // 01_Hero — 2026-08-31 Figma EN 페이지 답변으로 확정
       anniversaryTag: "5th Anniversary Special Project",
-      broadcastInfo1: "3 PM Pre-release on fondant", // 2026-09-01 확인: fondant 소문자
-      broadcastInfo2: "5 PM YouTube & TV",
+      // 문자열 안의 개행은 모바일에서만 줄바꿈으로 살아난다(PC는 whitespace-nowrap이라 공백으로 합쳐짐).
+      // 그래서 모바일은 "Every Sunday," / "3 PM Pre-release on fondant" / "5 PM TV & YouTube" 3줄,
+      // PC는 구분선을 사이에 두고 한 줄이 된다(2026-09-21 교체). fondant는 소문자(2026-09-01 확인)
+      broadcastInfo1: "Every Sunday,\n3 PM Pre-release on fondant",
+      broadcastInfo2: "5 PM TV & YouTube",
       premiereFallback: "Premieres Sept 20", // 2026-08-31 확인: 실제 텍스트 콘텐츠는 레이어명("First episode")이 아니라 이 문구
       taglineLine1: "a voice that heals the world",
     },
@@ -377,6 +397,22 @@ export const translations = {
       title: "VOICES", // 국문에서 "보이스"가 들어가는 H2 자리
       desc: "Meet the 32 Voices set to heal the world",
       cta: "Watch Now", // 국문 "콘텐츠 보기"
+    },
+    // 투표 섹션 (8차 추가, 2026-09-18 Figma 답변 기준 — 디자인 확정 전이라 수정 가능성 있음)
+    voteSection: {
+      eyebrow: "Voting",
+      title: "VOTE", // 국문 "투표하기"
+      // 화면에 대문자로 보이는 것은 헤드카피 폰트(GFC Red Spirit) 때문이고, 원문 대소문자는 아래 그대로다.
+      // 시안(node 2003:3847)의 PC 텍스트 노드에는 강제 줄바꿈이 없고 폭 1200에서 자동으로 2줄이 되는데,
+      // 브라우저 렌더 폭이 시안과 미세하게 달라 "that" 뒤에서 끊겼다. 시안과 같은 자리에서 끊기도록
+      // "VOICE" 뒤에 개행을 명시한다.
+      headline: "Cast your vote for the VOICE\nthat moved your heart!",
+      headlineMobile: "Cast your vote\nfor the VOICE\nthat moved\nyour heart!",
+      eligibilityLabel: "Eligibility",
+      eligibility: "1 vote per ID daily (1 contestant per day)",
+      requirementsLabel: "Requirements",
+      requirements: "Verified mobile users on Fondant",
+      cta: "Vote Now",
     },
     // 시상내역(Awards) 섹션 — 영문 확정 문구 전달 전까지 국문 임시 사용
     awardsSection: {

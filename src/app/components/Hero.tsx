@@ -12,7 +12,6 @@ const heroBg = "/images/hero/hero_bg.jpg";
 const heroBgMobile = "/images/hero/hero_bg_mobile.jpg";
 const logoSrc = "/images/header/healingvoice_logo.png";
 const kccmBadge = "/images/hero/hero_badge_kccm_ko.png"; // "K-CCM 글로벌 오디션" — 국문 전용 이미지. 영문판은 이 배지 자체가 없음(Big Text에 텍스트로만 존재, 2026-08-31 확인)
-const premiereBadgeKo = "/images/hero/hero_badge_premiere_ko.png"; // "9월 20일 첫 방송" — 국문 전용 이미지. 영문판은 이미지가 아니라 단색 배경(#03133b)+텍스트(2026-08-31 확인)
 const heroLogoEn = "/images/hero/hero_logo_en.png"; // 영문판 전용 Hero 워드마크(국문은 기존 헤더 로고 재사용)
 // 퐁당 아이콘: Figma에서 받은 벡터 export가 깨진 상태였어서(빈 클리핑 박스), 기존 프로젝트에 있던
 // 확정 브랜드 아이콘(퐁당 5주년 특별 기획.png)에서 아이콘 부분만 잘라 재사용
@@ -24,8 +23,11 @@ const fondantWordmarkEn = "https://i.imgur.com/yZuLvLq.png";
 const heroAnniversaryTagEn = "/images/hero/hero_anniversary_tag_en.png";
 // 국문 모바일 "5주년 특별 기획" — 지정 폰트(Sandoll Nemony2) 없어서 이미지로 대체(2026-09-01 확인)
 const heroAnniversaryTagKo = "/images/hero/hero_anniversary_tag_ko.png";
+// 영문 "K-CCM Global Audition" — 국문의 kccmBadge에 대응하는 자리다.
+// 지정 폰트(KoreanHDRIB)가 프로젝트에 없어서 이미지로 쓴다(fonts.css에 직접 올린 폰트는 GFC Red Spirit 하나뿐).
+// 2026-09-22 시안(node 2003:3345)에서도 문구가 "K-CCM Global Audition"으로 같아 교체할 것이 없다.
+// (변수명이 tagline이라 예전 문구 "a voice that heals the world"로 오해하기 쉬운데 실제 이미지 내용은 위와 같다)
 const heroTaglineEn = "/images/hero/hero_tagline_en.png";
-const heroPremiereTextEn = "/images/hero/hero_premiere_text_en.png";
 const FONDANT_URL = "https://www.fondant.kr";
 // 방청 신청 구글폼(2026-09-18 수급)
 const AUDIENCE_URL = "https://forms.gle/9WqAaBtEkzAyiTpF6";
@@ -34,13 +36,15 @@ const AUDIENCE_URL = "https://forms.gle/9WqAaBtEkzAyiTpF6";
 // 시간대가 무엇이든(해외 시청자 포함) 전 세계에서 동시에 열린다.
 const AUDIENCE_OPEN_TIME = "2026-09-20T17:00:00+09:00";
 
-// CTA 버튼 2개가 크기·폰트·그림자를 공유해서 한 곳에 모아둔다(슬랙 스펙 2026-09-18).
-// PC: 259x72, padding 세로 24, gap 8, 폰트 24px, 아이콘 24px / 모바일: 143x39, padding 세로 12, gap 6, 폰트 13.5px, 아이콘 15px
-// 폭을 고정값으로 주기 때문에 좌우 padding(스펙 PC 48 / 모바일 24)은 따로 두지 않는다.
+// CTA 버튼 2개가 크기·폰트·그림자를 공유해서 한 곳에 모아둔다(슬랙 스펙 2026-09-22, node 2003:2061 / 2003:2645).
+// PC: 높이 72, padding 세로 24·가로 48, gap 8, 폰트 24px, 아이콘 24px
+// 모바일: 높이 52, padding 세로 16, gap 8, 폰트 18px, 아이콘 20px (가로 패딩은 언어별로 달라 버튼 쪽에서 준다)
+// 폭은 시안이 HUG라 고정하지 않는다 — 문구 길이에 따라 퐁당 259 / 방청 217(모바일 174 / 143)이 나온다.
+// (2026-09-18에는 두 버튼 폭이 259로 같아서 고정값을 줬었는데, 이번 시안에서 서로 달라졌다)
 const CTA_BUTTON_CLASS =
-  "flex items-center justify-center gap-[1.5385vw] md:gap-[0.4167vw] rounded-full w-[36.6667vw] md:w-[13.4896vw] py-[3.0769vw] md:py-[1.25vw] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] transition-colors whitespace-nowrap";
-const CTA_LABEL_CLASS = "text-[3.4615vw] md:text-[1.25vw] leading-none text-center font-bold";
-const CTA_ICON_CLASS = "w-[3.8462vw] h-[3.8462vw] md:w-[1.25vw] md:h-[1.25vw]";
+  "flex items-center justify-center gap-[2.0513vw] md:gap-[0.4167vw] rounded-full md:px-[2.5vw] py-[4.1026vw] md:py-[1.25vw] shadow-[0px_1px_2px_rgba(0,0,0,0.05)] transition-colors whitespace-nowrap";
+const CTA_LABEL_CLASS = "text-[4.6154vw] md:text-[1.25vw] leading-none text-center font-bold";
+const CTA_ICON_CLASS = "w-[5.1282vw] h-[5.1282vw] md:w-[1.25vw] md:h-[1.25vw]";
 
 // 방송 정보("3 PM Pre-release..." 등) 텍스트 색 — theme.ts의 titleGradient와 값이 같아서(2026-09-02 확인)
 // 그쪽 값을 그대로 가져와 이 파일 안에서 쓰던 이름을 유지함
@@ -107,7 +111,8 @@ export function Hero() {
       {/* 콘텐츠 */}
       {/* 영문 PC 슬랙 정밀 스펙 확인(2026-09-01, node 1374:3969): 텍스트/로고 그룹 - 방송정보 - 버튼 사이 gap 모두 32px(1.6667vw)로 동일 — 기존값이 이미 정확했음 */}
       {/* 영문 PC 컨테이너 폭은 스펙상 827px(=43.0729vw) — 기존 30.469vw는 국문 전용 값이 잘못 공유되고 있었음(2026-09-01 확인, 로고가 스펙보다 오른쪽으로 치우쳐 보이던 원인) */}
-      <div className={`relative z-10 flex flex-col items-center gap-[6.1538vw] md:gap-[1.6667vw] w-full max-w-[107.6923vw] ${lang === "en" ? "md:max-w-[43.0729vw]" : "md:max-w-[30.469vw]"} px-[4.1026vw] md:px-4 pb-[6.1538vw] md:pb-[1.25vw]`}>
+      {/* 모바일 묶음 간격은 국문 20 / 영문 24로 다르다(2026-09-22 스펙, node 2003:2645 · 2003:3926) */}
+      <div className={`relative z-10 flex flex-col items-center ${lang === "en" ? "gap-[6.1538vw]" : "gap-[5.1282vw]"} md:gap-[1.6667vw] w-full max-w-[107.6923vw] ${lang === "en" ? "md:max-w-[43.0729vw]" : "md:max-w-[30.469vw]"} px-[4.1026vw] md:px-4 pb-[6.1538vw] md:pb-[1.25vw]`}>
         {/* 태그 + 로고 그룹 — 영문은 모바일/데스크탑 배치 순서가 달라(모바일: 뱃지→로고→태그라인) 분리 렌더링(2026-08-31 모바일 스펙) */}
         {/* 국문 모바일 실측 스펙 반영(2026-09-01 확인): 뱃지-로고그룹 gap16, 아이콘 24.89px, 로고 115.43px 등 */}
         {/* 영문 모바일 스펙 확인(2026-09-01, node 1374:4707): 뱃지row-로고그룹 gap18.82px(=4.8256vw) — 국문(4.1026vw)과 다름 */}
@@ -187,90 +192,58 @@ export function Hero() {
 
         {/* 방송 정보 + CTA — 한 그룹으로 묶어 함께 등장(2026-09-01 확인) */}
         <Reveal className="flex flex-col items-center gap-[6.1538vw] md:gap-[1.6667vw] w-full" delay={0.15}>
-          <div className="flex flex-col items-center gap-[3.0769vw] md:gap-[0.8333vw] w-full">
-            {lang === "ko" ? (
-              <img
-                src={premiereBadgeKo}
-                alt={t("hero.premiereFallback")}
-                className="w-auto h-[9.2308vw] md:h-[3.6458vw] object-contain"
-              />
-            ) : (
-              // 배지 테두리: linear-gradient(#D2DFFF 1.16% → #89A3FF 100%, 135deg) 2px INSIDE — background-clip 이중 배경으로 구현(2026-08-31 확인)
-              // 텍스트 지정 폰트(SB Aggro Bold)는 프로젝트에 없어 이미지로 대체 — 모바일도 PC용 에셋 재사용(2026-09-01 확인, radius 16px→8px)
-              <div
-                className="flex items-center justify-center rounded-[2.0513vw] md:rounded-[0.8333vw] px-[4.1026vw] py-[3.0769vw] md:px-[1.25vw] md:py-[0.8333vw] border-2 border-transparent"
-                style={{
-                  backgroundImage: "linear-gradient(#03133b, #03133b), linear-gradient(135deg, #D2DFFF 1.16%, #89A3FF 100%)",
-                  backgroundOrigin: "border-box",
-                  backgroundClip: "padding-box, border-box",
-                }}
+          {/* 방송 정보 — "9월 20일 첫 방송" 배지는 첫 방송이 끝나 제거함(2026-09-21 사용자 요청).
+              배지가 차지하던 자리는 요소를 지우면 그대로 닫히므로 별도 간격 조정은 하지 않았다.
+              국문/영문이 같은 구조가 되어(모바일 세로 나열 + 구분선 없음, PC 가로 한 줄 + 구분선)
+              언어별로 갈라져 있던 분기를 하나로 합쳤다.
+              broadcastInfo1 안의 개행은 모바일(whitespace-pre-line)에서만 줄바꿈으로 살아나고,
+              PC(whitespace-nowrap)에서는 공백으로 합쳐진다 — 영문이 모바일에서만 2줄로 쪼개지는 처리다.
+              PC의 세로 구분선은 텍스트 "|"가 아니라 Figma의 Rectangle 34(2x32, #d4ebff)를 옮긴 것이다. */}
+          <div className="flex flex-col items-center w-full">
+            {/* 모바일 — 구분선 없이 세로로 나열.
+                한 줄 = 한 <p>여야 한다. 개행이 든 문구를 <p> 하나에 넣고 whitespace-pre-line이나
+                <br/>(lib/text.tsx의 renderLines)로 끊으면, 그라데이션 박스가 여러 줄에 걸쳐 한 번만
+                칠해져서 첫 줄은 흰색 두번째 줄은 파란색으로 나뉘어 버린다(2026-09-21 지적).
+                그래서 개행을 미리 쪼개 줄마다 독립된 <p>로 만들어 각자 그라데이션을 받게 한다. */}
+            <div className="md:hidden flex flex-col items-center gap-[1.0256vw]">
+              {[...t("hero.broadcastInfo1").split("\n"), t("hero.broadcastInfo2")].map((line, i) => (
+                <p
+                  key={i}
+                  className="text-[5.1282vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
+                  style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
+                >
+                  {line}
+                </p>
+              ))}
+            </div>
+
+            {/* PC — 구분선을 사이에 두고 가로 한 줄 */}
+            <div className="hidden md:flex items-center gap-[0.625vw]">
+              <p
+                className="text-[1.6667vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
+                style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
               >
-                <img src={heroPremiereTextEn} alt={t("hero.premiereFallback")} className="h-[4.1026vw] md:h-[1.493vw] w-auto object-contain" />
-              </div>
-            )}
-            {lang === "en" ? (
-              <>
-                {/* 영문 모바일: 구분선 없이 2줄 세로 배치(2026-08-31 모바일 스펙) */}
-                <div className="md:hidden flex flex-col items-center gap-[1.0256vw]">
-                  <p
-                    className="text-[5.1282vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
-                    style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
-                  >
-                    {t("hero.broadcastInfo1")}
-                  </p>
-                  <p
-                    className="text-[5.1282vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
-                    style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
-                  >
-                    {t("hero.broadcastInfo2")}
-                  </p>
-                </div>
-                <div className="hidden md:flex items-center gap-[0.625vw]">
-                  <p
-                    className="text-[1.6667vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
-                    style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
-                  >
-                    {t("hero.broadcastInfo1")}
-                  </p>
-                  <span className="h-[1.6667vw] w-[0.1042vw] bg-[#D4EBFF]" />
-                  <p
-                    className="text-[1.6667vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
-                    style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
-                  >
-                    {t("hero.broadcastInfo2")}
-                  </p>
-                </div>
-              </>
-            ) : (
-              <div className="flex items-center gap-[2.0513vw] md:gap-[0.625vw]">
-                <p
-                  className="text-[5.1282vw] md:text-[1.6667vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
-                  style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
-                >
-                  {t("hero.broadcastInfo1")}
-                </p>
-                <span className="h-[4.1026vw] w-[0.2564vw] md:h-[1.6667vw] md:w-[0.1042vw] bg-[#D4EBFF]" />
-                <p
-                  className="text-[5.1282vw] md:text-[1.6667vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
-                  style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
-                >
-                  {t("hero.broadcastInfo2")}
-                </p>
-              </div>
-            )}
+                {t("hero.broadcastInfo1")}
+              </p>
+              <span className="h-[1.6667vw] w-[0.1042vw] bg-[#D4EBFF]" />
+              <p
+                className="text-[1.6667vw] leading-[1.4] text-center font-extrabold text-transparent bg-clip-text whitespace-nowrap"
+                style={{ backgroundImage: broadcastGradient, fontFamily: "Paperlogy, Pretendard Variable, sans-serif" }}
+              >
+                {t("hero.broadcastInfo2")}
+              </p>
+            </div>
           </div>
 
-          {/* CTA — 국문은 버튼 2개(퐁당 바로가기 / 방청 신청), 영문은 방청 신청을 넣지 않기로 확정(2026-09-18) */}
-          {/* 슬랙 스펙 확인(2026-09-18, node 1885:845 PC / 1885:1732 모바일):
-              두 버튼 크기가 동일(PC 259x72, 모바일 143x39)하게 지정돼 있어 폭을 고정값으로 준다
-              — 퐁당 쪽은 HUG인데 결과가 259라 사실상 같은 값이고, 방청 쪽은 FIXED 259다.
-              버튼 사이 gap은 PC 32 / 모바일 24 */}
-          <div className="flex items-center gap-[6.1538vw] md:gap-[1.6667vw]">
+          {/* CTA — 국문은 버튼 2개(퐁당 바로가기 / 방청 신청), 영문은 "Go to Fondant" 하나뿐이다(2026-09-22 시안 재확인).
+              버튼 사이 간격은 PC 48 / 모바일 16.
+              좌우 패딩이 국문 모바일만 24이고 영문 모바일은 32라 버튼별로 따로 준다 — 폭은 HUG라 이 값이 폭을 결정한다. */}
+          <div className="flex items-center gap-[4.1026vw] md:gap-[2.5vw]">
             <a
               href={FONDANT_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${CTA_BUTTON_CLASS} bg-[#6276FB] hover:bg-[#4f5fe0]`}
+              className={`${CTA_BUTTON_CLASS} ${lang === "en" ? "px-[8.2051vw]" : "px-[6.1538vw]"} bg-[#6276FB] hover:bg-[#4f5fe0]`}
             >
               <span className={`${CTA_LABEL_CLASS} text-white`}>{t("header.cta")}</span>
               <ArrowUpRight className={`${CTA_ICON_CLASS} text-white`} strokeWidth={3} />
@@ -281,10 +254,10 @@ export function Hero() {
                 href={AUDIENCE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${CTA_BUTTON_CLASS} bg-white hover:bg-[#e5e7eb]`}
+                className={`${CTA_BUTTON_CLASS} px-[6.1538vw] bg-white hover:bg-[#e5e7eb]`}
               >
-                <span className={`${CTA_LABEL_CLASS} text-[#374151]`}>{t("hero.audienceCta")}</span>
-                <ArrowUpRight className={`${CTA_ICON_CLASS} text-black`} strokeWidth={3} />
+                <span className={`${CTA_LABEL_CLASS} text-[#062259]`}>{t("hero.audienceCta")}</span>
+                <ArrowUpRight className={`${CTA_ICON_CLASS} text-[#062259]`} strokeWidth={3} />
               </a>
             )}
           </div>
