@@ -28,6 +28,7 @@ export const translations = {
         about: "소개",
         cast: "출연진",
         voices: "보이스",
+        vote: "투표하기",
       },
       cta: "퐁당 바로가기",
     },
@@ -75,6 +76,20 @@ export const translations = {
       title: "보이스",
       desc: "세상을 치유할 32인의 보이스를 소개합니다",
       cta: "콘텐츠 보기",
+    },
+    // 투표 섹션 (8차 추가, 2026-09-18 Figma 답변 기준 — 디자인 확정 전이라 수정 가능성 있음)
+    voteSection: {
+      eyebrow: "Voting",
+      title: "투표하기",
+      // 헤드카피는 "014" 텍스처를 글자 모양으로 잘라낸 마스크 텍스트다.
+      // PC는 2줄, 모바일은 3줄로 줄 나눔이 달라 키를 따로 둔다(2026-09-22 스펙).
+      headline: "당신의 마음을 울린 보이스에게\n한 표를 보내주세요",
+      headlineMobile: "당신의 마음을 울린\n보이스에게\n한 표를 보내주세요",
+      eligibilityLabel: "참여 조건",
+      eligibility: "ID당 1일 1회 (하루에 1명 선택 가능)",
+      requirementsLabel: "필수 조건",
+      requirements: "퐁당 내 휴대폰 본인인증 완료 회원",
+      cta: "투표하기",
     },
     // 시상내역(Awards) 섹션 (2026-08-31 Figma 답변 기준 확정)
     awardsSection: {
@@ -333,6 +348,7 @@ export const translations = {
         about: "About",
         cast: "Cast",
         voices: "Voices",
+        vote: "Vote",
       },
       cta: "Go to Fondant",
     },
@@ -381,6 +397,22 @@ export const translations = {
       title: "VOICES", // 국문에서 "보이스"가 들어가는 H2 자리
       desc: "Meet the 32 Voices set to heal the world",
       cta: "Watch Now", // 국문 "콘텐츠 보기"
+    },
+    // 투표 섹션 (8차 추가, 2026-09-18 Figma 답변 기준 — 디자인 확정 전이라 수정 가능성 있음)
+    voteSection: {
+      eyebrow: "Voting",
+      title: "VOTE", // 국문 "투표하기"
+      // 화면에 대문자로 보이는 것은 헤드카피 폰트(GFC Red Spirit) 때문이고, 원문 대소문자는 아래 그대로다.
+      // 시안(node 2003:3847)의 PC 텍스트 노드에는 강제 줄바꿈이 없고 폭 1200에서 자동으로 2줄이 되는데,
+      // 브라우저 렌더 폭이 시안과 미세하게 달라 "that" 뒤에서 끊겼다. 시안과 같은 자리에서 끊기도록
+      // "VOICE" 뒤에 개행을 명시한다.
+      headline: "Cast your vote for the VOICE\nthat moved your heart!",
+      headlineMobile: "Cast your vote\nfor the VOICE\nthat moved\nyour heart!",
+      eligibilityLabel: "Eligibility",
+      eligibility: "1 vote per ID daily (1 contestant per day)",
+      requirementsLabel: "Requirements",
+      requirements: "Verified mobile users on Fondant",
+      cta: "Vote Now",
     },
     // 시상내역(Awards) 섹션 — 영문 확정 문구 전달 전까지 국문 임시 사용
     awardsSection: {

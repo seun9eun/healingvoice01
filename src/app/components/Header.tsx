@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { Globe, Menu, X, ArrowUpRight } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import { VOTE_SECTION_VISIBLE } from "./Vote";
 
 // 맨 위에 항상 떠있는(position: fixed) 상단 내비게이션. 반응형 단위/모바일-PC 분기 방식은
 // Cast.tsx 맨 위 주석 참고. 모바일에서는 햄버거 버튼을 누르면 전체화면 메뉴 패널이 뜬다
@@ -71,10 +72,13 @@ export function Header() {
   }, [menuOpen]);
 
   // 데스크탑 GNB 앵커 대상. "소개(about)" 앵커 대상 섹션은 기획 확인 중 — 우선 Big Text 섹션(id="about")로 가정.
+  // 메뉴 순서는 소개 → 출연진 → 보이스 → 투표하기로, 섹션이 쌓인 순서와 같다(2026-09-22 확인).
+  // 투표 항목은 투표 섹션이 켜져 있을 때만 넣는다 — 섹션이 없으면 눌러도 이동할 곳이 없다.
   const navItems = [
     { label: t("header.nav.about"), id: "#about" },
     { label: t("header.nav.cast"), id: "#cast" },
     { label: t("header.nav.voices"), id: "#voices" },
+    ...(VOTE_SECTION_VISIBLE ? [{ label: t("header.nav.vote"), id: "#vote" }] : []),
   ];
 
   // setMenuOpen(false)의 useEffect 클린업은 다음 렌더 이후에야 실행되므로, body가 잠긴 상태로
