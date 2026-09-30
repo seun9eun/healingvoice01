@@ -29,6 +29,11 @@ const heroAnniversaryTagKo = "/images/hero/hero_anniversary_tag_ko.png";
 // (변수명이 tagline이라 예전 문구 "a voice that heals the world"로 오해하기 쉬운데 실제 이미지 내용은 위와 같다)
 const heroTaglineEn = "/images/hero/hero_tagline_en.png";
 const FONDANT_URL = "https://www.fondant.kr";
+// 방청 신청 버튼 노출 스위치 — 2026-09-30 요청으로 화면에서 내렸다.
+// 나중에 다시 넣을 수 있어 구조는 그대로 두고 이 값만 false로 두었다. true로 바꾸면
+// 아래 공개 시각 판단과 ?rqbtn=on 미리보기까지 그대로 되살아난다.
+// (타입을 boolean으로 명시한 것은 false 리터럴로 좁혀져 아래 코드가 죽은 코드로 취급되지 않게 하려는 것)
+const AUDIENCE_BUTTON_ENABLED: boolean = false;
 // 방청 신청 구글폼(2026-09-18 수급)
 const AUDIENCE_URL = "https://forms.gle/9WqAaBtEkzAyiTpF6";
 // 방청 신청 버튼이 나타나는 시각 — 그 전까지는 버튼 자체를 그리지 않는다.
@@ -64,7 +69,8 @@ export function Hero() {
       Date.now() >= new Date(AUDIENCE_OPEN_TIME).getTime()
   );
   useEffect(() => {
-    if (audienceOpen) return;
+    // 버튼을 내려둔 동안에는 깨울 이유가 없어 타이머를 걸지 않는다.
+    if (!AUDIENCE_BUTTON_ENABLED || audienceOpen) return;
     const timer = setTimeout(
       () => setAudienceOpen(true),
       new Date(AUDIENCE_OPEN_TIME).getTime() - Date.now()
@@ -235,8 +241,9 @@ export function Hero() {
             </div>
           </div>
 
-          {/* CTA — 국문은 버튼 2개(퐁당 바로가기 / 방청 신청), 영문은 "Go to Fondant" 하나뿐이다(2026-09-22 시안 재확인).
-              버튼 사이 간격은 PC 48 / 모바일 16.
+          {/* CTA — 방청 신청 버튼을 내린 지금은 어느 언어에서나 "퐁당 바로가기" 하나뿐이고,
+              부모의 items-center 덕분에 가운데 놓인다(2026-09-30).
+              버튼 사이 간격(PC 48 / 모바일 16)은 방청 신청이 돌아왔을 때를 위해 그대로 둔다.
               좌우 패딩이 국문 모바일만 24이고 영문 모바일은 32라 버튼별로 따로 준다 — 폭은 HUG라 이 값이 폭을 결정한다. */}
           <div className="flex items-center gap-[4.1026vw] md:gap-[2.5vw]">
             <a
@@ -249,7 +256,7 @@ export function Hero() {
               <ArrowUpRight className={`${CTA_ICON_CLASS} text-white`} strokeWidth={3} />
             </a>
 
-            {lang === "ko" && audienceOpen && (
+            {AUDIENCE_BUTTON_ENABLED && lang === "ko" && audienceOpen && (
               <a
                 href={AUDIENCE_URL}
                 target="_blank"
