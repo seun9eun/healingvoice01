@@ -29,17 +29,31 @@ const heroAnniversaryTagKo = "/images/hero/hero_anniversary_tag_ko.png";
 // (변수명이 tagline이라 예전 문구 "a voice that heals the world"로 오해하기 쉬운데 실제 이미지 내용은 위와 같다)
 const heroTaglineEn = "/images/hero/hero_tagline_en.png";
 const FONDANT_URL = "https://www.fondant.kr";
-// 방청 신청 버튼 노출 스위치 — 2026-09-30 요청으로 화면에서 내렸다.
-// 나중에 다시 넣을 수 있어 구조는 그대로 두고 이 값만 false로 두었다. true로 바꾸면
-// 아래 공개 시각 판단과 ?rqbtn=on 미리보기까지 그대로 되살아난다.
-// (타입을 boolean으로 명시한 것은 false 리터럴로 좁혀져 아래 코드가 죽은 코드로 취급되지 않게 하려는 것)
-const AUDIENCE_BUTTON_ENABLED: boolean = false;
-// 방청 신청 구글폼(2026-09-18 수급)
-const AUDIENCE_URL = "https://forms.gle/9WqAaBtEkzAyiTpF6";
-// 방청 신청 버튼이 나타나는 시각 — 그 전까지는 버튼 자체를 그리지 않는다.
+// 방청 신청 버튼 노출 스위치. 아래 운영 기간과 별개로 버튼을 통째로 내리는 비상 수단이다.
+// 2026-09-30 요청으로 false로 내렸다가 2026-10-02 재활성화 일정이 나와 다시 true로 올렸다.
+// 기간 중에 급히 내려야 하면 이 값만 false로 바꾸면 된다(그때는 타이머도 걸지 않는다).
+// (타입을 boolean으로 명시한 것은 리터럴로 좁혀져 아래 코드가 죽은 코드로 취급되지 않게 하려는 것)
+const AUDIENCE_BUTTON_ENABLED: boolean = true;
+// 방청 신청 구글폼. 2026-10-02 재활성화 일정과 함께 새 폼으로 교체됐다
+// (이전 9/18 폼 9WqAaBtEkzAyiTpF6 과는 폼 자체가 다르다 — 단축코드만 바뀐 것이 아니다).
+// forms.gle 단축코드는 대소문자를 구분하니 옮겨 적을 때 주의할 것.
+const AUDIENCE_URL = "https://forms.gle/vTpwkjVrzuBSxXTC8";
+// 방청 신청 버튼을 띄우는 기간 — 이 구간 밖에서는 버튼 자체를 그리지 않는다.
+// 2026-10-02에 받은 일정: 10/4(일) 17시 ~ 10/11(일) 0시. 끝 시각은 포함하지 않으므로
+// 10/10 하루가 마지막이고 10/11로 넘어가는 자정에 사라진다.
 // videoData.ts의 openTime과 같은 형식으로 +09:00을 명시해 두었기 때문에, 보는 사람 기기의
-// 시간대가 무엇이든(해외 시청자 포함) 전 세계에서 동시에 열린다.
-const AUDIENCE_OPEN_TIME = "2026-09-20T17:00:00+09:00";
+// 시간대가 무엇이든(해외 시청자 포함) 전 세계에서 동시에 열리고 닫힌다.
+const AUDIENCE_OPEN_TIME = "2026-10-04T17:00:00+09:00";
+const AUDIENCE_CLOSE_TIME = "2026-10-11T00:00:00+09:00";
+
+const isAudienceWindow = () => {
+  const now = Date.now();
+  return now >= new Date(AUDIENCE_OPEN_TIME).getTime() && now < new Date(AUDIENCE_CLOSE_TIME).getTime();
+};
+
+// ?rqbtn=on 을 붙이면 기간과 무관하게 버튼이 보인다(deadline.ts의 ?testDeadline=true와 같은 용도).
+const isAudiencePreview = () =>
+  new URLSearchParams(window.location.search).get("rqbtn") === "on";
 
 // CTA 버튼 2개가 크기·폰트·그림자를 공유해서 한 곳에 모아둔다(슬랙 스펙 2026-09-22, node 2003:2061 / 2003:2645).
 // PC: 높이 72, padding 세로 24·가로 48, gap 8, 폰트 24px, 아이콘 24px
@@ -58,23 +72,22 @@ const broadcastGradient = titleGradient;
 export function Hero() {
   const { t, lang } = useLanguage();
 
-  // 방청 신청 버튼 노출 여부. 공개 시각 전에 페이지를 열어둔 사람도 새로고침 없이 버튼이 나타나도록
-  // 공개 시각에 딱 한 번 깨운다(YouTubeEmbed처럼 1초마다 갱신할 필요는 없는 단발성 전환이라).
-  // 주의: setTimeout의 지연 상한이 약 24.8일이라, 공개 시각을 그보다 먼 미래로 옮기게 되면
+  // 방청 신청 버튼 노출 여부. 경계 시각 전에 페이지를 열어둔 사람도 새로고침 없이 버튼이
+  // 나타나고 사라지도록, 다음 경계(열림 또는 닫힘)에 딱 한 번 깨운다
+  // (YouTubeEmbed처럼 1초마다 갱신할 필요는 없는 단발성 전환이라).
+  // 주의: setTimeout의 지연 상한이 약 24.8일이라, 경계 시각을 그보다 먼 미래로 옮기게 되면
   // 타이머가 즉시 발동해버린다 — 그때는 주기적 갱신 방식으로 바꿔야 한다.
-  // ?rqbtn=on 을 붙이면 공개 시각과 무관하게 바로 보인다(deadline.ts의 ?testDeadline=true와 같은 용도).
-  const [audienceOpen, setAudienceOpen] = useState(
-    () =>
-      new URLSearchParams(window.location.search).get("rqbtn") === "on" ||
-      Date.now() >= new Date(AUDIENCE_OPEN_TIME).getTime()
-  );
+  const [audienceOpen, setAudienceOpen] = useState(() => isAudiencePreview() || isAudienceWindow());
   useEffect(() => {
-    // 버튼을 내려둔 동안에는 깨울 이유가 없어 타이머를 걸지 않는다.
-    if (!AUDIENCE_BUTTON_ENABLED || audienceOpen) return;
-    const timer = setTimeout(
-      () => setAudienceOpen(true),
-      new Date(AUDIENCE_OPEN_TIME).getTime() - Date.now()
-    );
+    // 버튼을 내려뒀거나 미리보기로 강제 노출 중이면 깨울 이유가 없다
+    // (미리보기 중에 닫힘 시각이 지나 버튼이 사라져버리면 테스트가 안 된다).
+    if (!AUDIENCE_BUTTON_ENABLED || isAudiencePreview()) return;
+    const now = Date.now();
+    const next = [AUDIENCE_OPEN_TIME, AUDIENCE_CLOSE_TIME]
+      .map((time) => new Date(time).getTime())
+      .find((time) => time > now);
+    if (next === undefined) return; // 기간이 이미 끝났으면 더 기다릴 경계가 없다
+    const timer = setTimeout(() => setAudienceOpen(isAudienceWindow()), next - now);
     return () => clearTimeout(timer);
   }, [audienceOpen]);
 
