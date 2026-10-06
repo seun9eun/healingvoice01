@@ -15,7 +15,8 @@ export interface Video {
 
 export const VIDEO_DATA: { ko: Video[]; en: Video[] } = { // 최신순 정렬 (0번이 최신)
   ko: [
-    { id: "vZRtl1ELXtM", title: "선공개 클립(1)", label: "선공개", openTime: "2026-09-17T00:00:00+09:00" , isPinned: true },
+    { id: "RW_36QuhMCU", title: "3편 예고", label: "예고", openTime: "2026-10-06T00:00:00+09:00" , isPinned: true },
+    { id: "vZRtl1ELXtM", title: "선공개 클립(1)", label: "선공개", openTime: "2026-09-17T00:00:00+09:00"},
     { id: "aSINnO_7Yls", title: "공식 예고", label: "예고", openTime: "2026-09-07T00:00:00+09:00"  },
     { id: "1vKpHLgop9M", title: "티저 영상", label: "티저", openTime: "2026-08-14T17:00:00+09:00"},
     { id: "eOS2pRxfWe4", title: "오페라 가수 유영광", label: "홍보", openTime: "2026-05-06T18:00:00+09:00" },
@@ -32,7 +33,8 @@ export const VIDEO_DATA: { ko: Video[]; en: Video[] } = { // 최신순 정렬 (0
     { id: "5YqA0qryPPs", title: "티저 영상", label: "티저", openTime: DEFAULT_OPEN_TIME },
   ],
   en: [
-    { id: "vZRtl1ELXtM", title: "Preview Clip (1)", label: "PREVIEW", openTime: "2026-09-17T00:00:00+09:00" , isPinned: true },
+    { id: "RW_36QuhMCU", title: "Episode 3 Preview", label: "TRAILER", openTime: "2026-10-06T00:00:00+09:00" , isPinned: true },
+    { id: "vZRtl1ELXtM", title: "Preview Clip (1)", label: "PREVIEW", openTime: "2026-09-17T00:00:00+09:00"},
     { id: "aSINnO_7Yls", title: "Official Trailer", label: "TRAILER", openTime: "2026-09-07T00:00:00+09:00"  },
     { id: "1vKpHLgop9M", title: "Teaser", label: "TEASER", openTime: "2026-08-14T17:00:00+09:00"},
     { id: "NJnzBUqRMKo", title: "Yoo Young Kwang", label: "PR", openTime: "2026-05-06T18:00:00+09:00" },
@@ -41,11 +43,11 @@ export const VIDEO_DATA: { ko: Video[]; en: Video[] } = { // 최신순 정렬 (0
     { id: "1b6C0Fkmo5I", title: "Kan Miyoun", label: "PR", openTime: "2026-04-28T09:00:00+09:00" },
     { id: "Qba898x6WH0", title: "Song Jung-Mee", label: "PR", openTime: "2026-04-25T09:00:00+09:00" },
     { id: "vdWpGL89NUY", title: "Enoch", label: "PR", openTime: "2026-04-24T00:00:00+09:00" },
-    { id: "AgxCC4l3QnU", title: "Deadline Extended", label: "Teaser", openTime: "2026-04-24T12:00:00+09:00"},
+    { id: "AgxCC4l3QnU", title: "Deadline Extended", label: "TEASER", openTime: "2026-04-24T12:00:00+09:00"},
     { id: "hO3FKZak2G0", title: "Cho Hyelyun", label: "PR", openTime: "2026-04-24T12:00:00+09:00" },
     { id: "CjQMdFbPVH4", title: "Kim Jae-won", label: "PR", openTime: "2026-04-15T00:00:00+09:00" },
-    { id: "okEbs1xrVU8", title: "2nd Open Call", label: "Teaser", openTime: "2026-04-13T00:00:00+09:00" },
-    { id: "tukfPRXn044", title: "Open Call", label: "Teaser", openTime: DEFAULT_OPEN_TIME },
-    { id: "pBMPu9lvUOE", title: "Teaser", label: "Teaser", openTime: DEFAULT_OPEN_TIME },
+    { id: "okEbs1xrVU8", title: "2nd Open Call", label: "TEASER", openTime: "2026-04-13T00:00:00+09:00" },
+    { id: "tukfPRXn044", title: "Open Call", label: "TEASER", openTime: DEFAULT_OPEN_TIME },
+    { id: "pBMPu9lvUOE", title: "Teaser", label: "TEASER", openTime: DEFAULT_OPEN_TIME },
   ],
 };
