@@ -34,17 +34,17 @@ const FONDANT_URL = "https://www.fondant.kr";
 // 기간 중에 급히 내려야 하면 이 값만 false로 바꾸면 된다(그때는 타이머도 걸지 않는다).
 // (타입을 boolean으로 명시한 것은 리터럴로 좁혀져 아래 코드가 죽은 코드로 취급되지 않게 하려는 것)
 const AUDIENCE_BUTTON_ENABLED: boolean = true;
-// 방청 신청 구글폼. 2026-10-02 재활성화 일정과 함께 새 폼으로 교체됐다
-// (이전 9/18 폼 9WqAaBtEkzAyiTpF6 과는 폼 자체가 다르다 — 단축코드만 바뀐 것이 아니다).
+// 방청 신청 구글폼. 2026-10-15 새 회차 일정과 함께 새 폼으로 교체됐다
+// (이전 폼: 9/18 9WqAaBtEkzAyiTpF6, 10/2 vTpwkjVrzuBSxXTC8 — 단축코드만 바뀐 것이 아니라 폼 자체가 다르다).
 // forms.gle 단축코드는 대소문자를 구분하니 옮겨 적을 때 주의할 것.
-const AUDIENCE_URL = "https://forms.gle/vTpwkjVrzuBSxXTC8";
+const AUDIENCE_URL = "https://forms.gle/qTk4agMkH3y9FCfD8";
 // 방청 신청 버튼을 띄우는 기간 — 이 구간 밖에서는 버튼 자체를 그리지 않는다.
-// 2026-10-02에 받은 일정: 10/4(일) 17시 ~ 10/11(일) 0시. 끝 시각은 포함하지 않으므로
-// 10/10 하루가 마지막이고 10/11로 넘어가는 자정에 사라진다.
+// 2026-10-15에 받은 일정: 10/18(일) 17시 ~ 10/25(일) 0시. 끝 시각은 포함하지 않으므로
+// 10/24 하루가 마지막이고 10/25로 넘어가는 자정에 사라진다. (이전 일정: 10/4 17시 ~ 10/11 0시)
 // videoData.ts의 openTime과 같은 형식으로 +09:00을 명시해 두었기 때문에, 보는 사람 기기의
 // 시간대가 무엇이든(해외 시청자 포함) 전 세계에서 동시에 열리고 닫힌다.
-const AUDIENCE_OPEN_TIME = "2026-10-04T17:00:00+09:00";
-const AUDIENCE_CLOSE_TIME = "2026-10-11T00:00:00+09:00";
+const AUDIENCE_OPEN_TIME = "2026-10-18T17:00:00+09:00";
+const AUDIENCE_CLOSE_TIME = "2026-10-25T00:00:00+09:00";
 
 const isAudienceWindow = () => {
   const now = Date.now();
