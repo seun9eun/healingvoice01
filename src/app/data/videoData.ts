@@ -15,7 +15,8 @@ export interface Video {
 
 export const VIDEO_DATA: { ko: Video[]; en: Video[] } = { // 최신순 정렬 (0번이 최신)
   ko: [
-    { id: "Au_i-7-ihog", title: "6편 예고", label: "예고", openTime: "2026-10-22T00:00:00+09:00" , isPinned: true },
+    { id: "73855T1jc5c", title: "7편 예고", label: "예고", openTime: "2026-10-29T00:00:00+09:00" , isPinned: true },
+    { id: "Au_i-7-ihog", title: "6편 예고", label: "예고", openTime: "2026-10-22T00:00:00+09:00" },
     { id: "adjQFvOHK_g", title: "5편 예고", label: "예고", openTime: "2026-10-15T00:00:00+09:00"},
     { id: "0qdKMsNOg0k", title: "4편 예고", label: "예고", openTime: "2026-10-08T00:00:00+09:00"},
     { id: "RW_36QuhMCU", title: "3편 예고", label: "예고", openTime: "2026-10-06T00:00:00+09:00" },
@@ -36,7 +37,8 @@ export const VIDEO_DATA: { ko: Video[]; en: Video[] } = { // 최신순 정렬 (0
     { id: "5YqA0qryPPs", title: "티저 영상", label: "티저", openTime: DEFAULT_OPEN_TIME },
   ],
   en: [
-    { id: "Au_i-7-ihog", title: "Episode 6 Preview", label: "TRAILER", openTime: "2026-10-22T00:00:00+09:00" , isPinned: true },
+    { id: "73855T1jc5c", title: "Episode 7 Preview", label: "TRAILER", openTime: "2026-10-29T00:00:00+09:00" , isPinned: true },
+    { id: "Au_i-7-ihog", title: "Episode 6 Preview", label: "TRAILER", openTime: "2026-10-22T00:00:00+09:00" },
     { id: "adjQFvOHK_g", title: "Episode 5 Preview", label: "TRAILER", openTime: "2026-10-15T00:00:00+09:00"},
     { id: "0qdKMsNOg0k", title: "Episode 4 Preview", label: "TRAILER", openTime: "2026-10-08T00:00:00+09:00" },
     { id: "RW_36QuhMCU", title: "Episode 3 Preview", label: "TRAILER", openTime: "2026-10-06T00:00:00+09:00"},
