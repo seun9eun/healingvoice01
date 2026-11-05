@@ -7,9 +7,9 @@ import { titleGradient } from "../theme";
 // 첫 화면(맨 위) Hero 섹션. vw 반응형 단위, 모바일/PC 분기, 국문/영문 분기 방식은
 // Cast.tsx 맨 위 주석에 공통 설명이 있으니 처음 보는 사람은 그쪽을 먼저 참고할 것.
 // 01_Hero 에셋 (Figma 답변, 2026-08-27)
-const heroBg = "/images/hero/hero_bg_v2.jpg";
+const heroBg = "/images/hero/hero_bg.jpg";
 // 모바일은 데스크탑 가로 사진을 그대로 세로로 잘라 쓰고 있어 인물이 과도하게 잘렸음 — 모바일 전용으로 별도 크롭된 사진으로 교체(2026-09-01 확인)
-const heroBgMobile = "/images/hero/hero_bg_mobile_v2.jpg";
+const heroBgMobile = "/images/hero/hero_bg_mobile.jpg";
 const logoSrc = "/images/header/healingvoice_logo.png";
 const kccmBadge = "/images/hero/hero_badge_kccm_ko.png"; // "K-CCM 글로벌 오디션" — 국문 전용 이미지. 영문판은 이 배지 자체가 없음(Big Text에 텍스트로만 존재, 2026-08-31 확인)
 const heroLogoEn = "/images/hero/hero_logo_en.png"; // 영문판 전용 Hero 워드마크(국문은 기존 헤더 로고 재사용)
