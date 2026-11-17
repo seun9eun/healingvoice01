@@ -40,7 +40,7 @@ export const VIDEO_DATA: { ko: Video[]; en: Video[] } = { // 최신순 정렬 (0
     { id: "5YqA0qryPPs", title: "티저 영상", label: "티저", openTime: DEFAULT_OPEN_TIME },
   ],
   en: [
-    { id: "bYe6wDLjgns", title: "How to Vote", label: "INFO", openTime: "2026-11-17T00:00:00+09:00" , isPinned: true },
+    { id: "bYe6wDLjgns", title: "How Voting Works", label: "INFO", openTime: "2026-11-17T00:00:00+09:00" , isPinned: true },
     { id: "pIv2JWCvR2E", title: "Episode 9 Preview", label: "TRAILER", openTime: "2026-11-12T00:00:00+09:00"},
     { id: "ZUlbUBIkOT0", title: "Episode 8 Preview", label: "TRAILER", openTime: "2026-11-06T00:00:00+09:00"},
     { id: "73855T1jc5c", title: "Episode 7 Preview", label: "TRAILER", openTime: "2026-10-29T00:00:00+09:00"},
