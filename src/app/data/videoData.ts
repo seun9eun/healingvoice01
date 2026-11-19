@@ -16,6 +16,7 @@ export interface Video {
 export const VIDEO_DATA: { ko: Video[]; en: Video[] } = { // 최신순 정렬 (0번이 최신)
   ko: [
     { id: "WHEJGQKWzlk", title: "투표 안내(2)", label: "안내", openTime: "2026-11-19T00:00:00+09:00" , isPinned: true },
+    { id: "wS4prOZ-sMA", title: "10편 예고", label: "예고", openTime: "2026-11-19T00:00:00+09:00"},
     { id: "bYe6wDLjgns", title: "투표 안내(1)", label: "안내", openTime: "2026-11-17T00:00:00+09:00"},
     { id: "pIv2JWCvR2E", title: "9편 예고", label: "예고", openTime: "2026-11-12T00:00:00+09:00"},
     { id: "ZUlbUBIkOT0", title: "8편 예고", label: "예고", openTime: "2026-11-06T00:00:00+09:00" },
@@ -42,6 +43,7 @@ export const VIDEO_DATA: { ko: Video[]; en: Video[] } = { // 최신순 정렬 (0
   ],
   en: [
     { id: "WHEJGQKWzlk", title: "How Voting Works(2)", label: "INFO", openTime: "2026-11-19T00:00:00+09:00" , isPinned: true },
+    { id: "wS4prOZ-sMA", title: "Episode 10 Preview", label: "TRAILER", openTime: "2026-11-19T00:00:00+09:00"},
     { id: "bYe6wDLjgns", title: "How Voting Works(1)", label: "INFO", openTime: "2026-11-17T00:00:00+09:00"},
     { id: "pIv2JWCvR2E", title: "Episode 9 Preview", label: "TRAILER", openTime: "2026-11-12T00:00:00+09:00"},
     { id: "ZUlbUBIkOT0", title: "Episode 8 Preview", label: "TRAILER", openTime: "2026-11-06T00:00:00+09:00"},
