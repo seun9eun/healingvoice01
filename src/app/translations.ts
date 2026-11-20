@@ -27,6 +27,7 @@ export const translations = {
       nav: {
         about: "소개",
         cast: "출연진",
+        top7: "TOP 7",
         voices: "보이스",
         vote: "투표하기",
       },
@@ -355,6 +356,7 @@ export const translations = {
       nav: {
         about: "About",
         cast: "Cast",
+        top7: "TOP 7",
         voices: "Voices",
         vote: "Vote",
       },
