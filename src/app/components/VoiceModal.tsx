@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "motion/react";
-import { VOICES_DATA } from "../data/voicesData";
+import { VOICES_DATA, type Voice } from "../data/voicesData";
 import { titleGradient } from "../theme";
 
 // 보이스 인물 모달 — Figma 확정 스펙(2026-09-10 슬랙 답변).
@@ -66,12 +66,14 @@ export function VoiceModal({
   onClose,
   onSelect,
   getOrigin,
+  items = VOICES_DATA,
 }: {
   index: number | null;
   lang: "ko" | "en";
   onClose: () => void;
   onSelect: (next: number) => void;
   getOrigin: (index: number) => DOMRect | null; // 그 인덱스 카드의 화면상 위치 — 여기서 모달이 자라난다
+  items?: Voice[]; // 넘겨볼 인물 목록. 기본은 보이스 32인, TOP 7 섹션은 7인만 넘긴다(2026-11-20)
 }) {
   const reduced = useReducedMotion();
   const open = index !== null;
@@ -134,9 +136,9 @@ export function VoiceModal({
     (d: 1 | -1) => {
       if (shown === null) return;
       setDir(d);
-      onSelect((shown + d + VOICES_DATA.length) % VOICES_DATA.length);
+      onSelect((shown + d + items.length) % items.length);
     },
-    [shown, onSelect]
+    [shown, onSelect, items.length]
   );
 
   useEffect(() => {
@@ -157,12 +159,12 @@ export function VoiceModal({
   useEffect(() => {
     if (!open || shown === null) return;
     for (const d of [1, -1, 2, -2]) {
-      const next = VOICES_DATA[(shown + d + VOICES_DATA.length) % VOICES_DATA.length];
+      const next = items[(shown + d + items.length) % items.length];
       new Image().src = next.photoModal ?? next.photo;
     }
-  }, [open, shown]);
+  }, [open, shown, items]);
 
-  const v = shown === null ? null : VOICES_DATA[shown];
+  const v = shown === null ? null : items[shown];
   if (!mounted || !v) return null;
 
   // 클릭한 카드 중심에서 화면 중앙까지의 차이만큼 밀어두고 시작하면 "그 카드에서 자라난" 것처럼 보인다.
@@ -186,7 +188,7 @@ export function VoiceModal({
 
   const name = lang === "ko" ? v.nameKo : v.nameEn;
   const desc = lang === "ko" ? v.descKo : v.descEn;
-  const counter = `${shown! + 1} / ${VOICES_DATA.length}`;
+  const counter = `${shown! + 1} / ${items.length}`;
 
   // 소개글 줄바꿈은 Figma에서 수동 개행이다(2026-09-10 확인). voicesData 문구의 "/" 자리에서 나눈다.
   //
