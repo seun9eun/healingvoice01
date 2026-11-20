@@ -5,7 +5,6 @@ import { Vote } from "../components/Vote";
 import { YouTubeEmbed } from "../components/YouTubeEmbed";
 import { BigText } from "../components/BigText";
 import { Cast } from "../components/Cast";
-import { Top7 } from "../components/Top7";
 import { DeadlineModal } from "../components/DeadlineModal";
 
 // 랜딩 페이지 = 실제로 사용자가 보게 되는 메인 화면 하나를 이 순서대로 위에서 아래로 쌓은 것.
@@ -35,7 +34,6 @@ export function LandingPage() {
       <BigText />
       <YouTubeEmbed />
       <Cast />
-      <Top7 />
       <Voices />
       <Vote />
     </>

@@ -77,14 +77,6 @@ export const translations = {
       desc: "세상을 치유할 32인의 보이스를 소개합니다",
       cta: "콘텐츠 보기",
     },
-    // TOP 7 섹션 (2026-11-20, Figma 2119:3851). desc는 모바일에서만 두 줄로 끊긴다(1·2를 나눈 이유).
-    top7Section: {
-      eyebrow: "The Final Seven",
-      title: "TOP 7",
-      desc1: "<힐링보이스>의 여정을 빛낸",
-      desc2: "최종 우승자와 TOP 7을 소개합니다",
-      winner: "최종 우승자",
-    },
     // 투표 섹션 (8차 추가, 2026-09-18 Figma 답변 기준 — 디자인 확정 전이라 수정 가능성 있음)
     voteSection: {
       eyebrow: "Voting",
@@ -405,14 +397,6 @@ export const translations = {
       title: "VOICES", // 국문에서 "보이스"가 들어가는 H2 자리
       desc: "Meet the 32 Voices set to heal the world",
       cta: "Watch Now", // 국문 "콘텐츠 보기"
-    },
-    // TOP 7 섹션. 영문 모바일 시안 소개문 첫 줄에 국문이 남아 있는 것은 시안 오류로 보고 뺐다.
-    top7Section: {
-      eyebrow: "The Final Seven",
-      title: "TOP 7",
-      desc1: "Meet the Final Winner",
-      desc2: "and the TOP 7 of <Healing Voice>",
-      winner: "FINAL WINNER",
     },
     // 투표 섹션 (8차 추가, 2026-09-18 Figma 답변 기준 — 디자인 확정 전이라 수정 가능성 있음)
     voteSection: {

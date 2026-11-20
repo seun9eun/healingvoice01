@@ -29,17 +29,13 @@ const blueGlow = glowGradient("rgba(56,111,183,1)", "rgba(0,111,255,0)", 87.6, "
 // 별 배경 3장. z는 star1 → star3 → star2 순(레이어 이름 순서와 z-order가 다르다 — 2026-09-09 확인).
 // star2·star3은 rotation 180이며, 아래 x/y/W/H는 회전이 반영된 바운딩 박스라 위치는 그대로 쓰고
 // 이미지만 뒤집는다.
-// [2026-11-20 TOP 7 추가 → v8(2119:3645, 1920x11436)로 갱신] 출연진 아래에 TOP 7(1696)이 끼면서
-// 페이지가 길어졌는데 예전 % 그대로라 파란 glow가 출연진 하단(배경 사진이 투명해지는 구간)까지
-// 밀려 내려와 TOP 7과의 경계가 끊겨 보였다. 분모를 11436으로 바꾸고 star3·star2는 v8 위치로 옮겼다.
-// star1·보라 glow는 v8 답변에 따로 없었고 TOP 7보다 위라 절대 좌표는 그대로다.
 const STARS = [
-  // bg_star 1 — page(-378, 852) 2734x2636
-  { left: "-19.6875vw", top: "7.4502%", w: "142.3958vw", h: "137.2917vw", flip: false },
-  // bg_star 3 — page(-549, 6223) 3077.05x2967 (v8 2119:3649)
-  { left: "-28.5938vw", top: "54.4159%", w: "160.2630vw", h: "154.5313vw", flip: true },
-  // bg_star 2 — page(-549, 7163) 3077.05x2967 (v8 2119:3648)
-  { left: "-28.5938vw", top: "62.6355%", w: "160.2630vw", h: "154.5313vw", flip: true },
+  // bg_star 1 — bg(530, 0) 2734x2636 → page(-378, 852)
+  { left: "-19.6875vw", top: "9.7718%", w: "142.3958vw", h: "137.2917vw", flip: false },
+  // bg_star 3 — bg(359, 3676) 3076x2967 → page(-549, 4528)
+  { left: "-28.5938vw", top: "51.9326%", w: "160.2083vw", h: "154.5313vw", flip: true },
+  // bg_star 2 — bg(359, 5996) 3076x2967 → page(-549, 6848). 프레임 하단을 넘어가 잘린다.
+  { left: "-28.5938vw", top: "78.5411%", w: "160.2083vw", h: "154.5313vw", flip: true },
 ];
 
 // ── 모바일 (힐링보이스_M_KO_v3.1 = 2003:2641, 390x6679.83, 2026-09-28 답변) ──────────────
@@ -59,11 +55,10 @@ const STARS = [
 // z-order와 위치로 대응시킬 것(기획자 주의사항).
 // PC와 달리 회전은 셋 다 0도다. 별 이미지는 v2.1과 같은 파일이다(imageHash 동일).
 // 배열 순서가 곧 z-order(먼저 = 아래)이며 레이어 이름 순서와 다르다.
-// [2026-11-20] TOP 7 추가로 v4(2119:4335, 390x7633.54) 기준으로 다시 환산. star2·star4 위치가 바뀌었다.
 const MOBILE_STARS = [
-  { left: "-131.2821vw", top: "67.8584%", w: "362.5641vw", h: "349.4872vw" }, // bg_star 2 — x-512 y5180 1414x1363
-  { left: "-132.5641vw", top: "61.0333%", w: "365.1282vw", h: "352.3077vw" }, // bg_star 4 — x-517 y4659 1424x1374
-  { left: "-58.4615vw", top: "8.7378%", w: "216.9231vw", h: "208.9744vw" },   // bg_star 1 — x-228 y667 846x815
+  { left: "-131.2821vw", top: "63.2651%", w: "362.5641vw", h: "349.4872vw" }, // bg_star 2 — x-512 y4226 1414x1363
+  { left: "-132.5641vw", top: "79.9721%", w: "365.1282vw", h: "352.3077vw" }, // bg_star 4 — x-517 y5342 1424x1374
+  { left: "-58.4615vw", top: "9.9853%", w: "216.9231vw", h: "208.9744vw" },   // bg_star 1 — x-228 y667 846x815
 ];
 
 // 모바일에는 페이지 레벨 glow가 없다. 대신 02_Big Text 섹션 안에 보라 glow 3개가 있는데,
@@ -71,9 +66,9 @@ const MOBILE_STARS = [
 // (섹션 컴포넌트에 넣으면 섹션 밖으로 삐져나가는 음수 좌표를 다시 풀어야 한다).
 // 절대 y는 v2.1과 같지만 페이지 높이가 바뀌어 %는 다시 계산했다.
 const MOBILE_GLOWS = [
-  { left: "50vw", top: "9.3963%", size: "72.0513vw" }, // 2003:2681 — x195 y717.27 281
-  { left: "79.7436vw", top: "10.9028%", size: "12.8205vw" }, // 2003:2682 — x311 y832.27 50
-  { left: "-85.6410vw", top: "9.6024%", size: "159.7436vw" }, // 2003:2683 — x-334 y733 623
+  { left: "50vw", top: "10.7378%", size: "72.0513vw" }, // 2003:2681 — x195 y717.27 281
+  { left: "79.7436vw", top: "12.4594%", size: "12.8205vw" }, // 2003:2682 — x311 y832.27 50
+  { left: "-85.6410vw", top: "10.9733%", size: "159.7436vw" }, // 2003:2683 — x-334 y733 623
 ];
 
 export function PageBackground() {
@@ -113,12 +108,12 @@ export function PageBackground() {
 
       {/* glow 보라 (1746:244) — page(-908, 1058), 1715x1715, paint opacity 0.4 / SCREEN */}
       <div
-        className="hidden md:block absolute left-[-47.2917vw] top-[9.2515%] w-[89.3229vw] h-[89.3229vw] rounded-full opacity-40 mix-blend-screen"
+        className="hidden md:block absolute left-[-47.2917vw] top-[12.1344%] w-[89.3229vw] h-[89.3229vw] rounded-full opacity-40 mix-blend-screen"
         style={{ backgroundImage: purpleGlow }}
       />
       {/* glow 파랑 (1746:243) — page(157, 3184), 1607x1607, paint opacity 0.5 / SCREEN. 모바일에는 없다. */}
       <div
-        className="hidden md:block absolute left-[8.1771vw] top-[27.8419%] w-[83.6979vw] h-[83.6979vw] rounded-full opacity-50 mix-blend-screen"
+        className="hidden md:block absolute left-[8.1771vw] top-[36.5179%] w-[83.6979vw] h-[83.6979vw] rounded-full opacity-50 mix-blend-screen"
         style={{ backgroundImage: blueGlow }}
       />
     </div>
