@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { Reveal } from "./Reveal";
 import { titleGradient } from "../theme";
@@ -36,17 +37,38 @@ const headlineStyle = {
   backgroundPosition: "center",
 } as const;
 
-// 투표 섹션은 항상 보인다(2026-10-01 확정).
-//
-// 처음에는 1라운드 구간(2026-09-27 16:40 ~ 10-01 23:00)에만 섹션과 GNB 메뉴를 노출하고
-// 마감 시각에 둘 다 사라지게 만들어 두었는데, 라운드 운영을 이 페이지가 아니라 투표 링크가
-// 가리키는 퐁당 인앱 페이지에서 공지·처리하기로 정리됐다. 그래서 여기서는 구간을 두지 않고
-// 그냥 계속 띄운다. 공개/마감 시각 상수, ?vote=on 미리보기, 경계 시각 타이머는 모두 걷어냈다.
-// 다시 기간제로 돌릴 일이 생기면 이 커밋 직전 이력에 당시 구현이 그대로 있다.
+// 투표 마감(2026-11-20 확정) — 이 시각부터 섹션과 GNB "투표하기" 메뉴가 함께 사라진다.
+// +09:00 을 명시해 보는 사람 기기의 시간대와 무관하게 같은 순간에 닫힌다(Hero의 AUDIENCE_* 와 같은 방식).
+// 10/1 에 상시 노출로 바꾸며 걷어냈던 구간 판단(커밋 5bd47b81 직전)을 마감 쪽만 되살렸다.
+const VOTE_CLOSE_TIME = "2026-11-20T22:00:00+09:00";
+
+// 검수용 쿼리스트링: ?vote=off 는 마감 후 모습(숨김), ?vote=on 은 마감 후에도 강제 노출.
+const votePreview = () => new URLSearchParams(window.location.search).get("vote");
+const isVoteOpen = () => {
+  const q = votePreview();
+  if (q === "on") return true;
+  if (q === "off") return false;
+  return Date.now() < new Date(VOTE_CLOSE_TIME).getTime();
+};
+
+// 섹션(Vote)과 GNB 메뉴(Header)가 같은 판단을 쓰도록 훅으로 둔다 — 섹션이 없는데 메뉴만 남으면
+// 눌러도 갈 곳이 없다. 페이지를 열어둔 채 마감을 넘겨도 새로고침 없이 닫히도록 그 시점에 한 번 깨운다.
+export function useVoteVisible() {
+  const [visible, setVisible] = useState(isVoteOpen);
+  useEffect(() => {
+    if (!visible || votePreview()) return;
+    const delay = new Date(VOTE_CLOSE_TIME).getTime() - Date.now();
+    if (delay > 2 ** 31 - 1) return; // setTimeout 상한(약 24.8일) 초과면 다음 방문 때 판정
+    const timer = setTimeout(() => setVisible(isVoteOpen()), delay + 50);
+    return () => clearTimeout(timer);
+  }, [visible]);
+  return visible;
+}
 
 export function Vote() {
   const { t, lang } = useLanguage();
   const isEn = lang === "en";
+  const visible = useVoteVisible();
 
   // 참여/필수 조건 한 줄.
   // PC는 "라벨: 내용"이 가로 한 줄로 붙고 라벨에 콜론이 있다(가로 gap 12).
@@ -65,6 +87,8 @@ export function Vote() {
       </span>
     </div>
   );
+
+  if (!visible) return null;
 
   return (
     <section
