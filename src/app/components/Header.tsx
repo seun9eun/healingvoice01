@@ -72,12 +72,13 @@ export function Header() {
   }, [menuOpen]);
 
   // 데스크탑 GNB 앵커 대상. "소개(about)" 앵커 대상 섹션은 기획 확인 중 — 우선 Big Text 섹션(id="about")로 가정.
-  // 메뉴 순서는 소개 → 출연진 → 보이스 → 투표하기로, 섹션이 쌓인 순서와 같다(2026-09-22 확인).
+  // 메뉴 순서는 소개 → 출연진 → TOP 7 → 보이스 → 투표하기로, 섹션이 쌓인 순서와 같다(2026-09-22 확인).
   // 투표 항목은 투표 섹션이 보이는 동안에만 넣는다(마감 시각 판단은 Vote.tsx의 같은 훅).
   const voteVisible = useVoteVisible();
   const navItems = [
     { label: t("header.nav.about"), id: "#about" },
     { label: t("header.nav.cast"), id: "#cast" },
+    { label: t("header.nav.top7"), id: "#top7" }, // TOP 7 섹션(2026-11-20, 헤더 2119:4311 — 다른 메뉴와 스타일 동일)
     { label: t("header.nav.voices"), id: "#voices" },
     ...(voteVisible ? [{ label: t("header.nav.vote"), id: "#vote" }] : []),
   ];
